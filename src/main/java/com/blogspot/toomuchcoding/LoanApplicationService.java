@@ -3,10 +3,8 @@ package com.blogspot.toomuchcoding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import com.blogspot.toomuchcoding.model.FraudCheckStatus;
 import com.blogspot.toomuchcoding.model.FraudServiceRequest;
@@ -45,8 +43,9 @@ public class LoanApplicationService {
         httpHeaders.add(HttpHeaders.CONTENT_TYPE, FRAUD_SERVICE_JSON_VERSION_1);
 
         ResponseEntity<FraudServiceResponse> response =
-                serviceRestClient.forService("fraudDetectionService").put().onUrl("/fraudcheck").httpEntity(new HttpEntity<>(request, httpHeaders))
-                .andExecuteFor().aResponseEntity().ofType(FraudServiceResponse.class);
+                serviceRestClient.forService("fraudDetectionService").put().onUrl("/fraudcheck").httpEntity(
+                        new HttpEntity<>(request, httpHeaders))
+                        .andExecuteFor().aResponseEntity().ofType(FraudServiceResponse.class);
 
         return response.getBody();
     }

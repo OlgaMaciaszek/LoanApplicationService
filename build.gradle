@@ -18,6 +18,11 @@ ext {
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'spring-boot'
+apply plugin: 'idea'
+
+idea.module {
+    inheritOutputDirs = true
+}
 
 sourceCompatibility = 1.8
 version = '1.0'

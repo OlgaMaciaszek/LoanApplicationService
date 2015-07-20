@@ -5,19 +5,18 @@ import com.blogspot.toomuchcoding.model.LoanApplication
 import com.blogspot.toomuchcoding.model.LoanApplicationResult
 import com.blogspot.toomuchcoding.model.LoanApplicationStatus
 import com.github.tomakehurst.wiremock.junit.WireMockClassRule
-import com.ofg.infrastructure.web.resttemplate.fluent.ServiceRestClient
 import org.junit.ClassRule
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
 import org.springframework.boot.test.WebIntegrationTest
-import org.springframework.http.ResponseEntity
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.context.web.WebAppConfiguration
 import spock.lang.Shared
 import spock.lang.Specification
 
 @ContextConfiguration(loader = SpringApplicationContextLoader, classes = Application)
 @WebIntegrationTest(randomPort = true)
+@ActiveProfiles("test")
 class LoanApplicationServiceSpec extends Specification {
 
     @ClassRule
