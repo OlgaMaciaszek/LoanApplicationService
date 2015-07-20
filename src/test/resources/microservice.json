@@ -1,0 +1,10 @@
+{
+  "pl": {
+    "this": "com/blogspot/toomuchcoding/loanApplicationService",
+    "dependencies": {
+      "fraudDetectionService": {
+        "path": "com/blogspot/toomuchcoding/fraudDetectionService"
+      }
+    }
+  }
+}

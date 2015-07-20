@@ -1,0 +1,17 @@
+.idea
+*.iml
+*.ipr
+*.iws
+build
+/bin
+.gradle
+.poject
+.settings
+.classpath
+commitHash.txt
+logs
+.log
+.zip
+/out
+*~
+scripts/run.sh
