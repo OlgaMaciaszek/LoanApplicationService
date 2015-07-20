@@ -44,5 +44,9 @@ bootRun {
     jvmArgs "-DAPP_ENV=dev"
 }
 
+test {
+    jvmArgs "-DAPP_ENV=dev"
+}
+
 
 
