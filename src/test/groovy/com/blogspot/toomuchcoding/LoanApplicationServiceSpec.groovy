@@ -4,7 +4,7 @@ import com.blogspot.toomuchcoding.model.Client
 import com.blogspot.toomuchcoding.model.LoanApplication
 import com.blogspot.toomuchcoding.model.LoanApplicationResult
 import com.blogspot.toomuchcoding.model.LoanApplicationStatus
-import com.github.tomakehurst.wiremock.junit.WireMockClassRule
+import io.codearte.accurest.stubrunner.junit.AccurestRule
 import org.junit.ClassRule
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.SpringApplicationContextLoader
@@ -19,15 +19,23 @@ import spock.lang.Specification
 @ActiveProfiles("test")
 class LoanApplicationServiceSpec extends Specification {
 
+    public static final String LOCAL_MAVEN = "/home/omaciaszek/.m2/repository/"
+    public static final String FRAUD_SERVICE_ID = "com.blogspot.toomuchcoding:fraudDetectionService"
+
     @ClassRule
     @Shared
-    WireMockClassRule wireMockRule = new WireMockClassRule()
+    AccurestRule accurestRule = new AccurestRule().repoRoot(LOCAL_MAVEN)
+            .downloadStub(FRAUD_SERVICE_ID)
 
     @Autowired
     LoanApplicationService loanApplicationService
 
+    @Autowired
+    FraudServiceClient fraudServiceClient
+
     def 'should successfully apply for loan'() {
         given:
+            fraudServiceClient.setServiceUrl(accurestRule.findStubUrl(FRAUD_SERVICE_ID).toString())
             LoanApplication application =
                     new LoanApplication(client: new Client(pesel: '12345678902'), amount: 123.123)
         when:
@@ -39,6 +47,7 @@ class LoanApplicationServiceSpec extends Specification {
 
     def 'should be rejected due to abnormal loan amount'() {
         given:
+            fraudServiceClient.setServiceUrl(accurestRule.findStubUrl(FRAUD_SERVICE_ID).toString())
             LoanApplication application =
                     new LoanApplication(client: new Client(pesel: '12345678902'), amount: 99_999)
         when:

@@ -3,8 +3,10 @@ package com.blogspot.toomuchcoding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.blogspot.toomuchcoding.model.FraudCheckStatus;
 import com.blogspot.toomuchcoding.model.FraudServiceRequest;
@@ -12,19 +14,21 @@ import com.blogspot.toomuchcoding.model.FraudServiceResponse;
 import com.blogspot.toomuchcoding.model.LoanApplication;
 import com.blogspot.toomuchcoding.model.LoanApplicationResult;
 import com.blogspot.toomuchcoding.model.LoanApplicationStatus;
-import com.ofg.infrastructure.web.resttemplate.fluent.ServiceRestClient;
 
 @Service
 public class LoanApplicationService {
 
+    private final FraudServiceClient fraudServiceClient;
+
     private static final String FRAUD_SERVICE_JSON_VERSION_1 =
             "application/vnd.fraud.v1+json";
 
-    private final ServiceRestClient serviceRestClient;
+    private final RestTemplate restTemplate;
 
     @Autowired
-    public LoanApplicationService(ServiceRestClient serviceRestClient) {
-        this.serviceRestClient = serviceRestClient;
+    public LoanApplicationService(FraudServiceClient fraudServiceClient) {
+        this.fraudServiceClient = fraudServiceClient;
+        this.restTemplate = new RestTemplate();
     }
 
     public LoanApplicationResult loanApplication(LoanApplication loanApplication) {
@@ -43,9 +47,9 @@ public class LoanApplicationService {
         httpHeaders.add(HttpHeaders.CONTENT_TYPE, FRAUD_SERVICE_JSON_VERSION_1);
 
         ResponseEntity<FraudServiceResponse> response =
-                serviceRestClient.forService("fraudDetectionService").put().onUrl("/fraudcheck").httpEntity(
-                        new HttpEntity<>(request, httpHeaders))
-                        .andExecuteFor().aResponseEntity().ofType(FraudServiceResponse.class);
+                restTemplate.exchange(fraudServiceClient.getServiceUrl(), HttpMethod.PUT,
+                        new HttpEntity<>(request, httpHeaders),
+                        FraudServiceResponse.class);
 
         return response.getBody();
     }
