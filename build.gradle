@@ -34,14 +34,13 @@ repositories {
 dependencies {
     compile("org.springframework.boot:spring-boot-starter")
     compile("org.springframework.boot:spring-boot-starter-web")
-//    compile('com.ofg:micro-infra-spring-boot-starter:0.9.1')
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile "org.spockframework:spock-spring:$spockVersion"
     testCompile "org.springframework:spring-test"
     testCompile "com.jayway.restassured:rest-assured:$restAssuredVersion"
     testCompile "com.jayway.restassured:spring-mock-mvc:$restAssuredVersion"
-    compile 'io.codearte.accurest:stub-runner-junit:1.0.4'
+    testCompile 'io.codearte.accurest:stub-runner-junit:1.0.4'
 }
 
 bootRun {
