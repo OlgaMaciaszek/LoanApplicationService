@@ -1,4 +1,4 @@
-package com.blogspot.toomuchcoding.model;
+package com.toomuchcoding.model;
 
 public class FraudServiceResponse {
 

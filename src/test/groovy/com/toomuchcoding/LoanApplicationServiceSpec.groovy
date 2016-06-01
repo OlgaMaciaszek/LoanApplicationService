@@ -1,9 +1,9 @@
-package com.blogspot.toomuchcoding
+package com.toomuchcoding
 
-import com.blogspot.toomuchcoding.model.Client
-import com.blogspot.toomuchcoding.model.LoanApplication
-import com.blogspot.toomuchcoding.model.LoanApplicationResult
-import com.blogspot.toomuchcoding.model.LoanApplicationStatus
+import com.toomuchcoding.model.Client
+import com.toomuchcoding.model.LoanApplication
+import com.toomuchcoding.model.LoanApplicationResult
+import com.toomuchcoding.model.LoanApplicationStatus
 import io.codearte.accurest.stubrunner.junit.AccurestRule
 import org.junit.ClassRule
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,22 +20,18 @@ import spock.lang.Specification
 class LoanApplicationServiceSpec extends Specification {
 
     public static final String LOCAL_MAVEN = "/home/omaciaszek/.m2/repository/"
-    public static final String FRAUD_SERVICE_ID = "com.blogspot.toomuchcoding:fraudDetectionService"
+    public static final String FRAUD_SERVICE_ID = "com.toomuchcoding:fraudDetectionService"
 
     @ClassRule
     @Shared
     AccurestRule accurestRule = new AccurestRule().repoRoot(LOCAL_MAVEN)
-            .downloadStub(FRAUD_SERVICE_ID)
+            .downloadStub(FRAUD_SERVICE_ID).withPort(8090)
 
     @Autowired
     LoanApplicationService loanApplicationService
 
-    @Autowired
-    FraudServiceClient fraudServiceClient
-
     def 'should successfully apply for loan'() {
         given:
-            fraudServiceClient.setServiceUrl(accurestRule.findStubUrl(FRAUD_SERVICE_ID).toString())
             LoanApplication application =
                     new LoanApplication(client: new Client(pesel: '12345678902'), amount: 123.123)
         when:
@@ -47,7 +43,6 @@ class LoanApplicationServiceSpec extends Specification {
 
     def 'should be rejected due to abnormal loan amount'() {
         given:
-            fraudServiceClient.setServiceUrl(accurestRule.findStubUrl(FRAUD_SERVICE_ID).toString())
             LoanApplication application =
                     new LoanApplication(client: new Client(pesel: '12345678902'), amount: 99_999)
         when:

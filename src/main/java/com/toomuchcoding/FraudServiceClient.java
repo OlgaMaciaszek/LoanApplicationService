@@ -1,4 +1,4 @@
-package com.blogspot.toomuchcoding;
+package com.toomuchcoding;
 
 import org.springframework.stereotype.Component;
 

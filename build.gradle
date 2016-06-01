@@ -33,14 +33,19 @@ repositories {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter")
-    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude group: 'com.fasterxml.jackson.core'
+    }
+    compile('com.fasterxml.jackson.core:jackson-databind:2.7.4')
+    compile('com.fasterxml.jackson.core:jackson-core:2.7.4')
+    compile('com.fasterxml.jackson.core:jackson-annotations:2.7.4')
     testCompile("org.springframework.boot:spring-boot-starter-test")
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile "org.spockframework:spock-spring:$spockVersion"
     testCompile "org.springframework:spring-test"
     testCompile "com.jayway.restassured:rest-assured:$restAssuredVersion"
     testCompile "com.jayway.restassured:spring-mock-mvc:$restAssuredVersion"
-    testCompile 'io.codearte.accurest:stub-runner-junit:1.0.4'
+    testCompile 'io.codearte.accurest:stub-runner-junit:1.1.0-M7'
 }
 
 bootRun {

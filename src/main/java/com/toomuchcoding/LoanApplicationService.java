@@ -1,4 +1,4 @@
-package com.blogspot.toomuchcoding;
+package com.toomuchcoding;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -8,12 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.blogspot.toomuchcoding.model.FraudCheckStatus;
-import com.blogspot.toomuchcoding.model.FraudServiceRequest;
-import com.blogspot.toomuchcoding.model.FraudServiceResponse;
-import com.blogspot.toomuchcoding.model.LoanApplication;
-import com.blogspot.toomuchcoding.model.LoanApplicationResult;
-import com.blogspot.toomuchcoding.model.LoanApplicationStatus;
+import com.toomuchcoding.model.FraudCheckStatus;
+import com.toomuchcoding.model.FraudServiceRequest;
+import com.toomuchcoding.model.FraudServiceResponse;
+import com.toomuchcoding.model.LoanApplication;
+import com.toomuchcoding.model.LoanApplicationResult;
+import com.toomuchcoding.model.LoanApplicationStatus;
 
 @Service
 public class LoanApplicationService {
